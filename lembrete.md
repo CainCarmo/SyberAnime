@@ -1,5 +1,5 @@
 <h1>Planejamento</h1>
----
+
 
 - [ ] -> Tratamento de Erros (API)
 - [ ] -> Organizar documentos
