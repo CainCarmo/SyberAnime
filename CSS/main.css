@@ -285,7 +285,8 @@ button {
 }
 
 #banner ::-webkit-scrollbar-track {
-    background-color: transparent;
+    border-radius: 10px;
+    background-color: #5C6664;
 }
 
 #banner__video {
@@ -323,6 +324,9 @@ button {
     border-radius: 10px;
     transition: .3s ease;
     background-color: #00ADB5;
+}
+
+#banner__btn a {
     color: #222831;
 }
 
@@ -335,17 +339,18 @@ button {
 }
 
 #banner__card img {
-    max-height: 318px;
-    min-height: 318px;
+    max-height: 300px;
+    min-height: 300px;
     max-width: 225px;
     min-width: 225px;
     border-radius: 10px;
+    margin-bottom: 10px;
 }
 
 /* --- Main --- */
 
 #container {
-    padding: 10px 100px;
+    padding: 50px 100px;
     background-color: #222831;
 }
 
@@ -385,6 +390,8 @@ button {
 .section__arrow {
     background-color: transparent;
 }
+
+/* *-- Ranking --* */
 
 .section__ranking-item {
     display: grid;
@@ -460,6 +467,8 @@ button {
     font-weight: 500;
 }
 
+/* *-- Sliders --* */
+
 .section__sliders {
     height: 100%;
     width: 100%;
@@ -469,7 +478,7 @@ button {
 }
 
 .section__slider {
-    height: 100%;
+    min-height: 100%;
     width: auto;
     display: flex;
     align-items: center;
