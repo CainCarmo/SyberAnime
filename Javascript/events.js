@@ -1,15 +1,15 @@
 /* --- Scroll --- */
 
-const $fixHeader = document.querySelector('#header')
+const $header = document.querySelector('#header')
 
 window.addEventListener('scroll', () => {
     if(window.scrollY > 100) {
-        document.querySelector('#header').classList.add('fixed')
-        document.querySelector('#header__menu').classList.add('reduce')
-    }
-    else {
-        document.querySelector('#header').classList.remove('fixed')
-        document.querySelector('#header__menu').classList.remove('reduce')
+        $header.classList.add('fixed')
+        document.querySelector('#header__logobar').classList.add('reduce')
+
+    } else {
+        $header.classList.remove('fixed')
+        document.querySelector('#header__logobar').classList.remove('reduce')
     }
 })
 
@@ -18,45 +18,65 @@ window.addEventListener('scroll', () => {
 const $searchIcon = document.querySelector('.fa-search')
 
 $searchIcon.addEventListener('click', () => {
-    const $searchBox = document.querySelector('#header__search--minimized.show')
+    const $searchBar = document.querySelector('#header__searchbar--minimized.maximized')
 
-    if(!$searchBox) {
-        document.querySelector('#header__search--minimized').classList.add('show')
-    }
-    else {
-        document.querySelector('#header__search--minimized').classList.remove('show')
+    if(!$searchBar) {
+        document.querySelector('#header__searchbar--minimized').classList.add('maximized')
+
+    } else {
+        document.querySelector('#header__searchbar--minimized').classList.remove('maximized')
     }
 })
 
-const $emptyInput = document.querySelector('.fa-times')
+const $headerBtn = document.querySelector('#header__login-button')
 
-$emptyInput.addEventListener('click', () => {
-    const $input = document.querySelector('#header__input')
-    $input.value = '';
+$headerBtn.addEventListener('click', () => {
+    document.querySelector('#login--hidden').classList.add('show')
+    document.querySelector('#login').classList.add('show')
+})
 
-    document.querySelector('#header__times--hidden').classList.remove('visible')
-    document.querySelector('#header__results--hidden').classList.remove('show')
+const $userIcon = document.querySelector('#header__user--hidden')
+
+$userIcon.addEventListener('click', () => {
+    if(document.querySelector('#header__menu').className === "maximized")
+        document.querySelector('#header__menu').classList.remove('maximized')
+    else
+        document.querySelector('#header__menu').classList.add('maximized')
+})
+
+const $loginTimes = document.querySelector('#login__times')
+
+$loginTimes.addEventListener('click', () => {
+    document.querySelector('#login--hidden').classList.remove('show')
+    document.querySelector('#login').classList.remove('show')
+})
+
+const $inputTimes = document.querySelector('#input__times')
+
+$inputTimes.addEventListener('click', () => {
+    document.querySelector('#header__search').value = ''
+
+    document.querySelector('#header__times--hidden').classList.remove('show')
+    document.querySelector('#header__results--hidden').classList.remove('maximized')
 })
 
 /* --- Input --- */
 
-const $searchInput = document.querySelector('#header__input')
+const $searchInput = document.querySelector('#header__search')
 
 $searchInput.addEventListener('input', () => {
-    let inputLength = $searchInput.value.length
+    let $searchLength = $searchInput.value.length
+    
+    if ($searchLength > 0) {
+        document.querySelector('#header__times--hidden').classList.add('show')
+        document.querySelector('#header__results--hidden').classList.add('maximized')
 
-    if(inputLength > 0) {
-        document.querySelector('#header__times--hidden').classList.add('visible')
-        document.querySelector('#header__results--hidden').classList.add('show')
-    }
-    else {
-        document.querySelector('#header__times--hidden').classList.remove('visible')
-        document.querySelector('#header__results--hidden').classList.remove('show')
+    } else {
+        document.querySelector('#header__times--hidden').classList.remove('show')
+        document.querySelector('#header__results--hidden').classList.remove('maximized')
     }
 })
 
-const $divInput = document.querySelector('#header__input')
-
-$divInput.addEventListener('input', () => {
-    requests.getSearch(event);
+$searchInput.addEventListener('input', () => {
+    request.getSearch();
 })

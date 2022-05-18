@@ -1,65 +1,131 @@
 const update = {
     setSearch(data) {
         const $divSearchResults = document.querySelector('#header__results--hidden')
-        const $itemType = document.querySelector('#header__select').value;
+        let $itemType = document.querySelector('#header__select').value
 
-        $divSearchResults.innerHTML = data.data.map((item) => {
-            return `
-                <div class="header__card">
+        if ($itemType === "anime") {
+            $divSearchResults.innerHTML = data.data.map((anime) => {
+                return `
+                    <div class="header__card">
 
-                    <img src="${item.images.webp.large_image_url}" alt="">
+                        <img src="${anime.images.webp.large_image_url}" alt="">
 
-                    <div class="header__card-info">
+                        <div class="header__card-info">
 
-                        <div class="section__ranking-name">
+                            <div class="section__ranking-name">
 
-                            <h3 class="section__ranking-title">
-                                <a href="details.html?=${item.mal_id}&type=${$itemType}">${item.title}</a>
-                            </h3>
+                                <h3 class="section__ranking-title">
+                                    <a href="details.php?type=anime&id=${anime.mal_id}">${anime.title}</a>
+                                </h3>
 
-                        </div>
+                            </div>
 
-                        <div class="section__ranking-extra">
+                            <div class="section__ranking-extra">
+                                
+                                <span class="section__ranking-text result-anime__episodes">${anime.type} (${anime.episodes} episódios)</span>
+                                <span class="section__ranking-text result-anime__duration">${anime.duration}</span>
+                                <span class="section__ranking-text result-anime__year">${anime.year}</span>
 
-                            <span class="section__ranking-text">${item.type} (${item.episodes} episódios)</span>
-                            
-                            <span class="section__ranking-text">${item.duration}</span>
-                            
-                            <span class="section__ranking-text">${item.year}</span>
+                            </div>
 
                         </div>
 
                     </div>
+                `
+            }).join('');
+            
+            const $animeChapters = document.querySelectorAll('.result-anime__chapters')
+            $animeChapters.forEach((item, index) => {
+                if (data.data[index].chapters === null)
+                    item.innerHTML = manga.type
+                
+            })
 
-                </div>
-            `
-        }).join("");
+            const $animeVolumes = document.querySelectorAll('.result-anime__volumes')
+            $animeVolumes.forEach((item,  index) => {
+                if (data.data[index].volumes === null)
+                    item.innerHTML = null
+            
+            })
+
+            const $animeYear = document.querySelectorAll('.result-anime__year')
+            $animeYear.forEach((item) => {
+                if (item.innerHTML === "null")
+                    item.innerHTML = null
+            })
+
+        } else {
+            $divSearchResults.innerHTML = data.data.map((manga) => {
+                return `
+                    <div class="header__card">
+
+                        <img src="${manga.images.webp.large_image_url}" alt="">
+
+                        <div class="header__card-info">
+
+                            <div class="section__ranking-name">
+
+                                <h3 class="section__ranking-title">
+                                    <a href="details.php?type=anime&id=${manga.mal_id}>${manga.title}</a>
+                                </h3>
+
+                            </div>
+
+                            <div class="section__ranking-extra">
+                                <span class="section__ranking-text result-manga__chapters">${manga.type} (${manga.chapters} capítulos)</span>
+                                <span class="section__ranking-text result-manga__volumes">${manga.volumes} volumes</span>
+                                <span class="section__ranking-text result-manga__year">${manga.published.prop.from.year}</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                `
+            }).join('');
+            
+            const $mangaChapters = document.querySelectorAll('.result-manga__chapters')
+            $mangaChapters.forEach((item, index) => {
+                if (data.data[index].chapters === null)
+                    item.innerHTML = manga.type
+                
+            })
+
+            const $mangaVolumes = document.querySelectorAll('.result-manga__volumes')
+            $mangaVolumes.forEach((item,  index) => {
+                if (data.data[index].volumes === null)
+                    item.innerHTML = null
+            
+            })
+
+            const $mangaYear = document.querySelectorAll('.result-manga__year')
+            $mangaYear.forEach((item) => {
+                if (item.innerHTML === "null")
+                    item.innerHTML = null
+            })
+
+        }
+
     },
 
-    setRandomAnime(data) {
+    setAnimeRandom(data) {
         const $divBanner = document.querySelector('#banner')
-
         $divBanner.innerHTML = `
-            <video id="banner__video" src="./Movies/mylivewallpapers.com-Nier-Automata-Team.mp4" autoplay muted loop></video>
-                    
+            <video id="banner__video" src="/Assets/movies/mylivewallpapers.com-Nier-Automata-Team.mp4" autoplay muted loop></video>
+                            
             <div id="banner__info">
             
                 <h1 id="banner__title">${data.data.title}</h1>
                 
-                <p id="banner__description">
-                    ${data.data.synopsis}
-                </p>
+                <p id="banner__description">${data.data.synopsis}</p>
 
                 <button id="banner__btn" type="button">
-                    <a href="details.html?=${data.data.mal_id}">Saiba Mais</a>
+                    <a href="details.php?type=anime&id=${data.data.mal_id}">Saiba Mais</a>
                 </button>
             
             </div>
             
             <div id="banner__card">
-            
                 <img id="banner__card-img" src="${data.data.images.webp.large_image_url}" alt="Banner-image-card">
-            
             </div>
         `;
 
@@ -69,21 +135,21 @@ const update = {
             glare: true,
             "max-glare": 1,
         });
+
+        const $bannerDecription = document.querySelector('#banner__description')
+        if ($bannerDecription.innerHTML === "null")
+            $bannerDecription.innerHTML = null
+
     },
 
     setTopAnime(data) {
         const $divTopAnime = document.querySelector('#anime__top')
-
-        $divTopAnime.innerHTML = data.data.slice(0,5).map((anime) => {
+        $divTopAnime.innerHTML = data.data.slice(0, 5).map((anime) => {
             return `
                 <div class="section__ranking-item" id="anime__ranking-item">
 
                     <div class="section__ranking-rank" id="anime__ranking-rank">
-
-                        <span class="section__ranking-index">
-                            ${anime.rank}
-                        </span>
-
+                        <span class="section__ranking-index">${anime.rank}</span>
                     </div>
 
                     <div class="section__ranking-description" id="anime__ranking-description">
@@ -95,20 +161,15 @@ const update = {
                             <div class="section__ranking-name">
 
                                 <h3 class="section__ranking-title">
-                                    <a href="details.html?=${anime.mal_id}">${anime.title}</a>
+                                    <a href="details.php?type=anime&id=${anime.mal_id}">${anime.title}</a>
                                 </h3>
 
                             </div>
 
                             <div class="section__ranking-extra">
-
-
                                 <span class="section__ranking-text">${anime.type} (${anime.episodes} episódios)</span>
-                                
                                 <span class="section__ranking-text">${anime.duration}</span>
-                                
                                 <span class="section__ranking-text">${anime.year}</span>
-
                             </div>
 
                         </div>
@@ -116,49 +177,39 @@ const update = {
                     </div>
 
                     <div class="section__ranking-score" id="anime__ranking-score">
-
                         <i class="fas fa-star"></i>
-
-                        <span class="section__ranking-avaliation">
-                            ${anime.score}
-                        </span>
-
+                        <span class="section__ranking-avaliation">${anime.score}</span>
                     </div>
 
                 </div>
             `
+        }).join('');
 
-        }).join("");
     },
 
     setAtualSeason(data) {
         const $divSliderAS = document.querySelector('#anime__slider--AS')
-
         $divSliderAS.innerHTML = data.data.map((anime) => {
             return `
                 <div class="section__slider-card">
 
-                    <img src="${anime.images.webp.image_url}" alt="Slider-image-card">
+                    <img src="${anime.images.webp.large_image_url}" alt="Slider-image-card">
 
                     <div class="section__slider-info">
 
-                        <h3 class="section__slider-title">
-                            ${anime.title}
-                        </h3>
+                        <h3 class="section__slider-title">${anime.title}</h3>
 
                         <button type="button" class="section__slider-button">
-                            <a href="details.html?=${anime.mal_id}">Saiba Mais</a>
+                            <a href="details.php?type=anime&id=${anime.mal_id}">Saiba Mais</a>
                         </button>
 
-                        <span class="section__slider-extra">
-                            ${anime.type}<br>${anime.year}
-                        </span>
+                        <span class="section__slider-extra">${anime.type}<br>${anime.year}</span>
 
                     </div>
 
                 </div>
             `
-        }).join("");
+        }).join('');
 
         new Glider($divSliderAS, {
             slidesToShow: 5,
@@ -170,37 +221,32 @@ const update = {
                 next: '#section__arrows-right--AS'
             }
         });
-        
+
     },
 
     setNextSeason(data) {
         const $divSliderNS = document.querySelector('#anime__slider--NS')
-
         $divSliderNS.innerHTML = data.data.map((anime) => {
             return `
                 <div class="section__slider-card">
 
-                    <img src="${anime.images.webp.image_url}" alt="Slider-image-card">
+                    <img src="${anime.images.webp.large_image_url}" alt="Slider-image-card">
 
                     <div class="section__slider-info">
 
-                        <h3 class="section__slider-title">
-                            ${anime.title}
-                        </h3>
+                        <h3 class="section__slider-title">${anime.title}</h3>
 
                         <button type="button" class="section__slider-button">
-                            <a href="details.html?=${anime.mal_id}">Saiba Mais</a>
+                            <a href="details.php?type=anime&id=${anime.mal_id}">Saiba Mais</a>
                         </button>
 
-                        <span class="section__slider-extra">
-                            ${anime.type}<br>${anime.year}
-                        </span>
+                        <span class="section__slider-extra slider__year">${anime.type}<br>${anime.year}</span>
 
                     </div>
 
                 </div>
             `
-        }).join("");
+        }).join('');
 
         new Glider($divSliderNS, {
             slidesToShow: 5,
@@ -212,21 +258,23 @@ const update = {
                 next: '#section__arrows-right--NS'
             }
         });
+
+        const $sliderYear = document.querySelectorAll('.slider__year')
+        $sliderYear.forEach((item, index) => {
+            if (data.data[index].year === null)
+                item.innerHTML = data.data[index].type
+        })
+
     },
 
     setTopManga(data) {
         const $divTopManga = document.querySelector('#manga__top')
-        
         $divTopManga.innerHTML = data.data.slice(0, 5).map((manga) => {
             return `
                 <div class="section__ranking-item" id="manga__ranking-item">
-                    
+                        
                     <div class="section__ranking-rank" id="manga__ranking-rank">
-            
-                        <span class="section__ranking-index">
-                            ${manga.rank}
-                        </span>
-            
+                        <span class="section__ranking-index">${manga.rank}</span>
                     </div>
             
                     <div class="section__ranking-description" id="manga__ranking-description">
@@ -238,20 +286,15 @@ const update = {
                             <div class="section__ranking-name">
             
                                 <h3 class="section__ranking-title">
-                                    <a href="details.html?=${manga.mal_id}&type=manga">${manga.title}</a>
+                                    <a href="details.php?type=manga&id=${manga.mal_id}">${manga.title}</a>
                                 </h3>
             
                             </div>
             
                             <div class="section__ranking-extra">
-            
-            
-                                <span class="section__ranking-text">${manga.type} (${manga.chapters} capítulos)</span>
-                                
-                                <span class="section__ranking-text">${manga.volumes} volumes</span>
-                                
-                                <span class="section__ranking-text">${manga.published.prop.from.year}</span>
-            
+                                <span class="section__ranking-text top-manga__chapters">${manga.type} (${manga.chapters} capítulos)</span>
+                                <span class="section__ranking-text top-manga__volumes">${manga.volumes} volumes</span>
+                                <span class="section__ranking-text top-manga__year">${manga.published.prop.from.year}</span>
                             </div>
             
                         </div>
@@ -259,41 +302,43 @@ const update = {
                     </div>
             
                     <div class="section__ranking-score" id="manga__ranking-score">
-            
                         <i class="fas fa-star"></i>
-            
-                        <span class="section__ranking-avaliation">
-                            ${manga.scored}
-                        </span>
-            
+                        <span class="section__ranking-avaliation">${manga.scored}</span>
                     </div>
-        
+
                 </div>
             `
-        }).join("");
+        }).join('');
+
+        const $topMangaChap = document.querySelectorAll('.top-manga__chapters')
+        $topMangaChap.forEach((item, index) => {
+            if (data.data[index].chapters === null)
+                item.innerHTML = data.data[index].type
+        })
+
+        const $topMangaVol = document.querySelectorAll('.top-manga__volumes')
+        $topMangaVol.forEach((item, index) => {
+            if (data.data[index].volumes === null)
+                item.innerHTML = null
+        })
+
     },
 
-    setAnimeById(data) {
-        const $title = document.querySelector('#details')
-        const $divBanner = document.querySelector('#banner')
-        const $divTrailer = document.querySelector('#trailer__video--wrapper')
-        
-        $title.innerHTML = `${data.data.title} | SyberAnime`;
+    setAnimeByID(data) {
+        document.querySelector('title').innerHTML = `${data.data.title} | SyberAnime`
 
+        const $divBanner = document.querySelector('#banner')
+        const $sectionTrailer = document.querySelector('#trailer')
+        const $divTrailer = document.querySelector('#trailer__video--wrapper')
         $divBanner.innerHTML = `
-            <video id="banner__video" src="./Movies/mylivewallpapers.com-KonoSuba-Magic-Spells-Megumin.mp4" autoplay muted loop></video>
-                    
+            <video id="banner__video" src="/Assets/movies/mylivewallpapers.com-KonoSuba-Magic-Spells-Megumin.mp4" autoplay muted loop></video>
+                        
             <div id="banner__info">
             
                 <h1 id="banner__title">${data.data.title}</h1>
+                <p id="banner__description">${data.data.synopsis}</p>
                 
-                <p id="banner__description">
-                    ${data.data.synopsis}
-                </p>
-                
-                <div id="banner__genres">
-
-                </div>
+                <div id="banner__genres"></div>
                 
             </div>
             
@@ -307,18 +352,12 @@ const update = {
 
                         <i class="fas fa-star"></i>
             
-                        <span id="banner__avaliation">
-                            ${data.data.score}
-                        </span>
+                        <span id="banner__avaliation">${data.data.score}</span>
 
                     </div>
 
                     <div id="banner__temp">
-
-                        <span id="banner__aired">
-                            ${data.data.season} ${data.data.year}
-                        </span>
-
+                        <span id="banner__aired">${data.data.season} ${data.data.year}</span>
                     </div>
                     
                 </div>
@@ -327,14 +366,13 @@ const update = {
         `;
 
         const $divBannerGenres = document.querySelector('#banner__genres')
-
         $divBannerGenres.innerHTML = data.data.genres.map((genre) => {
             return `
                 <div id="banner__genre">        
                     <span>${genre.name}</span>
                 </div>
             `
-        }).join("");
+        }).join('');
 
         VanillaTilt.init(document.querySelector('#banner__card-img'), {
             max: 25,
@@ -343,266 +381,63 @@ const update = {
             "max-glare": 1,
         });
 
-        $divTrailer.innerHTML = `
-            <iframe id="trailer__video" src="${data.data.trailer.embed_url}" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        `;
-    },
-
-    setAnimePerson(data) {
-        const $divAnimePerson = document.querySelector('#persons__wrapper')
-
-        $divAnimePerson.innerHTML = data.data.slice(0, 15).map((anime) => {
-            if (anime.voice_actors[0] === undefined) {
-                return `
-                    <div class="box__item">
-            
-                        <div class="box__left">
-
-                            <img src="${anime.character.images.webp.image_url}" alt="">
-
-                            <div class="box__info" id="persons__person-info">
-
-                                <span class="box__name">${anime.character.name}</span>
-
-                                <span class="box__sub">${anime.role}</span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                `
-            } else {
-                return `
-                    <div class="box__item">
-            
-                        <div class="box__left">
-
-                            <img src="${anime.character.images.webp.image_url}" alt="">
-
-                            <div class="box__info" id="persons__person-info">
-
-                                <span class="box__name">${anime.character.name}</span>
-
-                                <span class="box__sub">${anime.role}</span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="box__right">
-
-                            <div class="box__info" id="persons__seiyuu-info">
-
-                                <span>${anime.voice_actors[0].person.name}</span>
-
-                                <span>${anime.voice_actors[0].language}</span>
-
-                            </div>
-
-                            <img src="${anime.voice_actors[0].person.images.jpg.image_url}">
-
-                        </div>
-
-                    </div>
-                `
-            }
-        }).join("");
-    },
-
-    setAnimeStaff(data) {
-        const $divAnimeStaff = document.querySelector('#staff__wrapper')
-
-        $divAnimeStaff.innerHTML = data.data.slice(0, 10).map((anime) => {
-            return `
-                <div class="box__item">
-        
-                    <div class="box__left">
-
-                        <img src="${anime.person.images.jpg.image_url}" alt="">
-
-                        <div class="box__info" id="staff__info">
-
-                            <span class="box__name">${anime.person.name}</span>
-
-                            <span class="box__sub">${anime.positions[0]}</span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            `
-        }).join("");
-    },
-    
-    setItemRecommendations(data) {
-        const $sectionRecommendation = document.querySelector('#recommendations')
-        const $divSliderRE = document.querySelector('#anime__slider--RE')
-        
-        if (data.data[0] === undefined) {
-            $sectionRecommendation.innerHTML = null
+        if (data.data.trailer.embed_url === null) {
+            $sectionTrailer.innerHTML = null
         } else {
-            $divSliderRE.innerHTML = data.data.map((item) => {
-                return `
-                    <div class="section__slider-card">
-
-                        <img src="${item.entry.images.webp.image_url}" alt="Slider-image-card">
-
-                        <div class="section__slider-info">
-
-                            <h3 class="section__slider-title">
-                                ${item.entry.title}
-                            </h3>
-
-                            <button type="button" class="section__slider-button">
-                                <a href="details.html?=${item.entry.mal_id}">Saiba Mais</a>
-                            </button>
-
-                            <span class="section__slider-extra">
-                                <span></span><br><span></span>
-                            </span>
-
-                        </div>
-
-                    </div>
-                `
-            }).join("");
-
-            if (data.data.length <= 5) {
-                
-                new Glider($divSliderRE, {
-                    slidesToShow: data.data.length,
-                    dots: '#dots__RE',
-                    draggable: true,
-                    arrows: {
-                        prev: '#section__arrows-left--RE',
-                        next: '#section__arrows-right--RE'
-                    }
-                });
-
-            } else {
-
-                new Glider($divSliderRE, {
-                    slidesToShow: 5,
-                    slidesToScroll: 5,
-                    dots: '#dots__RE',
-                    draggable: true,
-                    arrows: {
-                        prev: '#section__arrows-left--RE',
-                        next: '#section__arrows-right--RE'
-                    }
-                });
-
-            }
+            $divTrailer.innerHTML = `
+                <iframe id="trailer__video" src="${data.data.trailer.embed_url}" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            `;
         }
+
     },
 
-    setMangaById(data) {
-        const $title = document.querySelector('#details')
+    setMangaByID(data) {
+        document.querySelector('title').innerHTML = `${data.data.title} | SyberAnime`
+
         const $divBanner = document.querySelector('#banner')
-        
-        $title.innerHTML = `${data.data.title} | SyberAnime`;
-
-        if(data.data.status === "Finished" || data.data.status === "On Hiatus") {
-            $divBanner.innerHTML = `
-                <video id="banner__video" src="./Movies/mylivewallpapers.com-KonoSuba-Magic-Spells-Megumin.mp4" autoplay muted loop></video>
-                        
-                <div id="banner__info">
-                
-                    <h1 id="banner__title">${data.data.title}</h1>
+        $divBanner.innerHTML = `
+            <video id="banner__video" src="/Assets/movies/mylivewallpapers.com-KonoSuba-Magic-Spells-Megumin.mp4" autoplay muted loop></video>
                     
-                    <p id="banner__description">
-                        ${data.data.synopsis}
-                    </p>
-                    
-                    <div id="banner__genres"></div>
-                    
-                </div>
+            <div id="banner__info">
+            
+                <h1 id="banner__title">${data.data.title}</h1>
+                <p id="banner__description">${data.data.synopsis}</p>
                 
-                <div id="banner__card">
+                <div id="banner__genres"></div>
                 
-                    <img id="banner__card-img" src="${data.data.images.webp.large_image_url}" alt="Banner-image-card">
+            </div>
+            
+            <div id="banner__card">
+            
+                <img id="banner__card-img" src="${data.data.images.webp.large_image_url}" alt="Banner-image-card">
 
-                    <div id="banner__status">
+                <div id="banner__status">
 
-                        <div id="banner__score">
+                    <div id="banner__score">
 
-                            <i class="fas fa-star"></i>
-                
-                            <span id="banner__avaliation">
-                                ${data.data.scored}
-                            </span>
+                        <i class="fas fa-star"></i>
+            
+                        <span id="banner__avaliation">${data.data.scored}</span>
 
-                        </div>
-
-                        <div id="banner__temp">
-
-                            <span id="banner__aired">
-                                ${data.data.published.prop.from.year} - ${data.data.published.prop.to.year}
-                            </span>
-
-                        </div>
-                        
                     </div>
-                
-                </div>
-            `;
-        } else {
-            $divBanner.innerHTML = `
-                <video id="banner__video" src="./Movies/mylivewallpapers.com-KonoSuba-Magic-Spells-Megumin.mp4" autoplay muted loop></video>
-                        
-                <div id="banner__info">
-                
-                    <h1 id="banner__title">${data.data.title}</h1>
-                    
-                    <p id="banner__description">
-                        ${data.data.synopsis}
-                    </p>
-                    
-                    <div id="banner__genres"></div>
-                    
-                </div>
-                
-                <div id="banner__card">
-                
-                    <img id="banner__card-img" src="${data.data.images.webp.large_image_url}" alt="Banner-image-card">
 
-                    <div id="banner__status">
-
-                        <div id="banner__score">
-
-                            <i class="fas fa-star"></i>
-                
-                            <span id="banner__avaliation">
-                                ${data.data.scored}
-                            </span>
-
-                        </div>
-
-                        <div id="banner__temp">
-
-                            <span id="banner__aired">
-                                ${data.data.published.prop.from.year}
-                            </span>
-
-                        </div>
-                        
+                    <div id="banner__temp">
+                        <span id="banner__aired">${data.data.published.prop.from.year} - ${data.data.published.prop.to.year}</span>
                     </div>
-                
+                    
                 </div>
-            `;
-        }
+            
+            </div>
+        `;
 
         const $divBannerGenres = document.querySelector('#banner__genres')
-
         $divBannerGenres.innerHTML = data.data.genres.map((genre) => {
             return `
                 <div id="banner__genre">        
                     <span>${genre.name}</span>
                 </div>
             `
-        }).join("");
+        }).join('');
 
         VanillaTilt.init(document.querySelector('#banner__card-img'), {
             max: 25,
@@ -610,107 +445,135 @@ const update = {
             glare: true,
             "max-glare": 1,
         });
-    }, 
+    },
 
-    setMangaPictures(data) {
-        const $divPictures = document.querySelector('#trailer')
-        $divPictures.id = "pictures"
-
-        $divPictures.innerHTML = `
-            <header class="section__header">
-
-                <h2 class="section__header-index">
-                    <i class="fa-solid fa-image"></i> - Capas
-                </h2>
-
-                <div class="section__arrows">
-
-                    <button type="button" class="section__arrow" id="section__arrows-left--PIC">
-                        <i class="fa-solid fa-circle-chevron-left"></i>
-                    </button>
-
-                    <button type="button" class="section__arrow" id="section__arrows-right--PIC">
-                        <i class="fa-solid fa-circle-chevron-right"></i>
-                    </button>
-
-                </div>
-
-            </header>
-
-            <div class="section__sliders">
-
-                <!-- Filled by Script -->
-                <div class="section__slider" id="manga__slider--PIC"></div>
-
-            </div>
-
-            <div role="tablist" class="dots" id="dots__PIC"></div>
-        `;
-
-
-        const $divSliderPIC = document.querySelector('#manga__slider--PIC')
-
-        $divSliderPIC.innerHTML = data.data.map((pictures) => {
-            return `
-                <div class="section__slider-card">
-
-                    <img src="${pictures.webp.large_image_url}" alt="Slider-image-card">
-
-                </div>
-            `
-        }).join("");
-
-        if (data.data.length <= 5) {
-                
-            new Glider($divSliderPIC, {
-                slidesToShow: data.data.length,
-                dots: '#dots__PIC',
-                draggable: true,
-                arrows: {
-                    prev: '#section__arrows-left--PIC',
-                    next: '#section__arrows-right--PIC'
-                }
-            });
-
-        } else {
-
-            new Glider($divSliderPIC, {
-                slidesToShow: 5,
-                slidesToScroll: 5,
-                dots: '#dots__PIC',
-                draggable: true,
-                arrows: {
-                    prev: '#section__arrows-left--PIC',
-                    next: '#section__arrows-right--PIC'
-                }
-            });
-
-        }
-    }, 
-
-    setMangaPerson(data) {
-        const $divMangaPerson = document.querySelector('#persons__wrapper')
-
-        $divMangaPerson.innerHTML = data.data.slice(0, 15).map((manga) => {
+    setCharacters(data) {
+        const $divCharacters = document.querySelector('#characters--wrapper')
+        $divCharacters.innerHTML = data.data.slice(0, 15).map((characters) => {
             return `
                 <div class="box__item">
         
                     <div class="box__left">
 
-                        <img src="${manga.character.images.webp.image_url}" alt="">
+                        <img src="${characters.character.images.webp.image_url}" alt="">
 
                         <div class="box__info" id="persons__person-info">
+                            <span class="box__name">${characters.character.name}</span>
+                            <span class="box__sub">${characters.role}</span>
+                        </div>
 
-                            <span class="box__name">${manga.character.name}</span>
+                    </div>
 
-                            <span class="box__sub">${manga.role}</span>
+                    <div class="box__right"></div>
 
+                </div>
+            `
+        }).join('');
+
+        const $divBoxDub = document.querySelectorAll('.box__right')
+        $divBoxDub.forEach((item, index) => {
+            if (data.data[index].voice_actors[0] !== null) {
+                item.innerHTML = `
+                <div class="box__info" id="persons__seiyuu-info">
+                    <span>${data.data[index].voice_actors[0].person.name}</span>
+                    <span>${data.data[index].voice_actors[0].language}</span>
+                </div>
+
+                <img src="${data.data[index].voice_actors[0].person.images.jpg.image_url}">
+            `
+            }
+            if (data.data[index].voice_actors[0] === null)
+                item.innerHTML = null
+        })
+    },
+
+    setStaff(data) {
+        const $sectionStaff = document.querySelector('#staff')
+        const $divStaff = document.querySelector('#staff--wrapper')
+        $divStaff.innerHTML = data.data.slice(0, 15).map((staff) => {
+            return `
+                <div class="box__item">
+        
+                    <div class="box__left">
+
+                        <img src="${staff.person.images.jpg.image_url}" alt="">
+
+                        <div class="box__info" id="staffs__staff-info">
+                            <span class="box__name">${staff.person.name}</span>
+                            <span class="box__sub staff__positions"></span>
                         </div>
 
                     </div>
 
                 </div>
             `
-        }).join("");
+        }).join('');
+
+        const $staffPositions = document.querySelectorAll('.staff__positions')
+        $staffPositions.forEach((item, index) => {
+            if (data.data[0].positions === null)
+                $sectionStaff.innerHTML = null
+            
+            if (data.data[0].positions !== null) {
+                if (data.data[index].positions[1] === undefined)
+                    item.innerHTML = data.data[index].positions[0] 
+                if (data.data[index].positions[1] !== undefined)
+                    item.innerHTML = `${data.data[index].positions[0]}, <br> ${data.data[index].positions[1]}`
+            }
+        })
+    },
+
+    setRecommendations(data, type) {
+        const $sectionRecommendations = document.querySelector('#recommendations')
+        const $divSliderRE = document.querySelector('#anime__slider--RE')
+
+        if (data.data[0] === undefined)
+            $sectionRecommendations.innerHTML = null
+        else {
+            $divSliderRE.innerHTML = data.data.map((anime) => {
+                return `
+                    <div class="section__slider-card">
+    
+                        <img src="${anime.entry.images.webp.image_url}" alt="Slider-image-card">
+    
+                        <div class="section__slider-info">
+    
+                            <h3 class="section__slider-title">${anime.entry.title}</h3>
+    
+                            <button type="button" class="section__slider-button">
+                                <a href="details.php?type=${type}&id=${anime.entry.mal_id}">Saiba Mais</a>
+                            </button>
+    
+                            <span class="section__slider-extra"><br></span>
+    
+                        </div>
+    
+                    </div>
+                `
+            }).join('');
+        }
+
+        if (data.data.length <= 5) {
+            new Glider($divSliderRE, {
+                slidesToShow: data.data.length,
+                dots: '#dots__RE',
+                draggable: true,
+                arrows: {
+                    prev: '#section__arrows-left--RE',
+                    next: '#section__arrows-right--RE'
+                }
+            });
+        } else {
+            new Glider($divSliderRE, {
+                slidesToShow: 5,
+                slidesToScroll: 5,
+                dots: '#dots__RE',
+                draggable: true,
+                arrows: {
+                    prev: '#section__arrows-left--RE',
+                    next: '#section__arrows-right--RE'
+                }
+            });
+        }
     }
 }

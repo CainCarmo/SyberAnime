@@ -1,11 +1,10 @@
-const base_URL = "https://api.jikan.moe/v4";
+const base_URL = "https://api.jikan.moe/v4"
 
-const requests = {
-    getSearch(event) {
-        event.PreventDefault;
-
+const request = {
+    getSearch() {
+        
         const $type = document.querySelector('#header__select').value;
-        const $name = document.querySelector('#header__input').value;
+        const $name = document.querySelector('#header__search').value;
 
         fetch(`${base_URL}/${$type}?q=${$name}`)
         .then(res => res.json())
@@ -13,20 +12,41 @@ const requests = {
         .catch(err => console.warn(err.message))
     },
 
-    getRandomAnime() {
+    getAnimeRandom() {
         fetch(`${base_URL}/random/anime`)
         .then(res => res.json())
-        .then(data => update.setRandomAnime(data))
+        .then(data => update.setAnimeRandom(data))
         .catch(err => console.warn(err.message))
     },
 
-    getTopAnime() {
-        fetch(`${base_URL}/top/anime`)
+    getAnimeByID(index) {
+        fetch(`${base_URL}/anime/${index}`)
         .then(res => res.json())
-        .then(data => update.setTopAnime(data))
+        .then(data => update.setAnimeByID(data))
         .catch(err => console.warn(err.message))
     },
 
+    getMangaByID(index) {
+        fetch(`${base_URL}/manga/${index}`)
+        .then(res => res.json())
+        .then(data => update.setMangaByID(data))
+        .catch(err => console.warn(err.message))
+    },
+
+    getStaff(index) {
+        fetch(`${base_URL}/anime/${index}/staff`)
+        .then(res => res.json())
+        .then(data => update.setStaff(data))
+        .catch(err => console.warn(err.message))
+    },
+
+    getCharacter(type, index) {
+        fetch(`${base_URL}/${type}/${index}/characters`)
+        .then(res => res.json())
+        .then(data => update.setCharacters(data))
+        .catch(err => console.warn(err.message))
+    },
+    
     getAtualSeason() {
         fetch(`${base_URL}/seasons/now`)
         .then(res => res.json())
@@ -41,6 +61,13 @@ const requests = {
         .catch(err => console.warn(err.message))
     },
 
+    getTopAnime() {
+        fetch(`${base_URL}/top/anime`)
+        .then(res => res.json())
+        .then(data => update.setTopAnime(data))
+        .catch(err => console.warn(err.message))
+    },
+
     getTopManga() {
         fetch(`${base_URL}/top/manga`)
         .then(res => res.json())
@@ -48,59 +75,11 @@ const requests = {
         .catch(err => console.warn(err.message))
     },
 
-    getAnimeById(id) {
-        fetch(`${base_URL}/anime/${id}`)
+    getRecommendations(type, index) {
+        fetch(`${base_URL}/${type}/${index}/recommendations`)
         .then(res => res.json())
-        .then(data => update.setAnimeById(data))
+        .then(data => update.setRecommendations(data, type))
         .catch(err => console.warn(err.message))
-    },
+    } 
 
-    getAnimePerson(id) {
-        fetch(`${base_URL}/anime/${id}/characters`)
-        .then(res => res.json())
-        .then(data => update.setAnimePerson(data))
-        .catch(err => console.warn(err.message))
-    },
-
-    getAnimeStaff(id) {
-        fetch(`${base_URL}/anime/${id}/staff`)
-        .then(res => res.json())
-        .then(data => update.setAnimeStaff(data))
-        .catch(err => console.warn(err.message))
-    },
-
-    getAnimeRecommendations(id) {
-        fetch(`${base_URL}/anime/${id}/recommendations`)
-        .then(res => res.json())
-        .then(data => update.setItemRecommendations(data))
-        .catch(err => console.warn(err.message))
-    },
-
-    getMangaById(id) {
-        fetch(`${base_URL}/manga/${id}`)
-        .then(res => res.json())
-        .then(data => update.setMangaById(data))
-        .catch(err => console.warn(err.message))
-    },
-    
-    getMangaPictures(id) {
-        fetch(`${base_URL}/manga/${id}/pictures`)
-        .then(res => res.json())
-        .then(data => update.setMangaPictures(data))
-        .catch(err => console.warn(err.message))
-    },
-
-    getMangaPerson(id) {
-        fetch(`${base_URL}/manga/${id}/characters`)
-        .then(res => res.json())
-        .then(data => update.setMangaPerson(data))
-        .catch(err => console.warn(err.message))
-    },
-
-    getMangaRecommendations(id) {
-        fetch(`${base_URL}/manga/${id}/recommendations`)
-        .then(res => res.json())
-        .then(data => update.setItemRecommendations(data))
-        .catch(err => console.warn(err.message))
-    }
 }

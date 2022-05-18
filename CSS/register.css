@@ -1,0 +1,182 @@
+/* --- Reset --- */
+
+* {
+    color: #101010;
+}
+
+/* --- Background --- */
+
+#return {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    transition: .3s;
+    z-index: 999;
+}
+
+#return:hover {
+    padding: .5rem;
+    border-radius: 50%;
+    background-color: #808080;
+}
+
+#content {
+    height: 100vh;
+    width: 100%;
+    min-width: 360px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+    background: url("https://images.unsplash.com/photo-1465146633011-14f8e0781093?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80"), #101010;
+    animation: scroll 70s linear infinite;
+}
+
+/* --- Box --- */
+
+#box {
+    height: 90vh;
+    width: 70%;
+    display: flex;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #EDEDED;
+    box-shadow: 1px 1px 10px #101010;
+}
+
+#box__left, #box__right {
+    height: 100%;
+    width: 50%;
+    overflow: hidden;
+}
+
+/* --- Box Left --- */
+
+#box__video {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* --- Box Right --- */
+
+#box__form {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+}
+
+#box__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#box__logo {
+    position: relative;
+    font-size: 1.7em;
+}
+
+#box__logo::after {
+    height: 4px;
+    width: 30%;
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background-color: #00ADB5;
+}
+
+#box__fields {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas: "username surname" "nickname nickname" "email email" "pass pass" "birth gender";
+    gap: 15px;
+    padding: 1.5rem;
+}
+
+.box__field {
+    width: 100%;
+    position: relative;
+}
+
+.box__input--wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.box__icon--wrapper i {
+    margin-right: .5rem;
+}
+
+.box__input {
+    height: 100%;
+    width: 100%;
+    padding: .5rem;
+    background-color: transparent;
+}
+
+.box__input:focus ~ .underline::after {
+    transform: scaleX(1);
+    transition: .5s;
+    background-color: #808080;
+}
+
+#box__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#box__submit {
+    width: 70%;
+    padding: .5rem;
+    border-radius: 25px;
+    transition: .5s;
+    background-color: #101010;
+    color: #EDEDED;
+}
+
+#box__submit:hover {
+    transform: translateY(-3px);
+} 
+
+.login__medias {
+    padding: .5rem;
+}
+
+/* --- Icons --- */
+
+.fa-arrow-left {
+    font-size: 1.5em;
+    color: #EDEDED;
+}
+
+.login__circle i {
+    font-size: 1.2em;
+}
+
+/* --- Grid Areas --- */
+
+#box__name--wrapper { grid-area: username; } #box__surname--wrapper { grid-area: surname; } #box__nickname--wrapper { grid-area: nickname; } #box__email--wrapper { grid-area: email; } #box__pass--wrapper { grid-area: pass; } #box__birth-wrapper { grid-area: birth; } #box__gender--wrapper { grid-area: gender; }
+
+/* --- KeyFrames / Medias --- */
+
+@keyframes scroll {
+    100%{
+     background-position: 0px -3000px;
+   }
+ }
+ 
+ @media (prefers-reduced-motion) {
+   .wrapper {
+     animation: scroll 200s linear infinite;
+   }
+ }
