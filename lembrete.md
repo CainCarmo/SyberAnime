@@ -2,6 +2,6 @@
 
 
 - [x] -> Tratamento de Erros (API)
-- [ ] -> Organizar documentos
-- [ ] -> Integrar sistema com um Banco de Dados
+- [x] -> Organizar documentos
+- [x] -> Integrar sistema com um Banco de Dados
 - [ ] -> Desenvolver Áreas para os usuários

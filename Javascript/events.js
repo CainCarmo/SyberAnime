@@ -35,13 +35,12 @@ $headerBtn.addEventListener('click', () => {
     document.querySelector('#login').classList.add('show')
 })
 
-const $userIcon = document.querySelector('#header__user--hidden')
+document.querySelector('#header__user-icon').addEventListener('click', () => {
+    document.querySelector('#header__menu').classList.add('maximized')
+})
 
-$userIcon.addEventListener('click', () => {
-    if(document.querySelector('#header__menu').className === "maximized")
-        document.querySelector('#header__menu').classList.remove('maximized')
-    else
-        document.querySelector('#header__menu').classList.add('maximized')
+document.querySelector('#header__menu-icon').addEventListener('click', () => {
+    document.querySelector('#header__menu').classList.remove('maximized')
 })
 
 const $loginTimes = document.querySelector('#login__times')

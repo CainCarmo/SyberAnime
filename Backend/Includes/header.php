@@ -1,3 +1,15 @@
+<?php
+    use \App\Session\Login;
+
+    $obUser = Login::getUserLogged();
+
+    $hiddenBtn = $obUser ? "hidden" : "";
+    $visibleIcon = $obUser ? "visible" : "";
+
+    $nickname = $obUser ? $obUser['userName'] : "";
+    $userEmail = $obUser ? $obUser['userEmail'] : "";
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
@@ -59,9 +71,52 @@
 
                             <img src="/Assets/img/Uzui.jpg" alt="profile-pic" id="header__user-icon">
 
-                            <nav id="header__menu">
+                            <div id="header__menu">
 
-                                <ul id="header__options">
+                                <header id="header__menu-header">
+
+                                    <img src="/Assets/img/Uzui.jpg" alt="profile-pic" id="header__menu-icon">
+
+                                    <h2 id="header__nickname"></h2>
+                                        <?=$nickname?>
+                                    <div>
+                                        <span id="header__email"><?=$userEmail?></span> - <a href="logout.php"> <strong>Sair</strong> </a>
+                                    </div>
+                                    
+                                </header>
+                                
+                                <nav id="header__options">
+
+                                    <ul>
+
+                                        <li class="header__option">
+                                            <a href="#">
+                                                <i class="fa-solid fa-user"></i> - Profile
+                                            </a>
+                                        </li>
+                                        <li class="header__option">
+                                            <a href="#">
+                                                <i class="fa-solid fa-clipboard"></i> - My List
+                                            </a>
+                                        </li>
+                                        <li class="header__option">
+                                            <a href="#">
+                                                <i class="fa-solid fa-gear"></i> - Configurações
+                                            </a>
+                                        </li>
+                                        <li class="header__option">
+                                            <a href="#">
+                                                <i class="fas fa-sign-out-alt"></i> - Sair
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </nav>
+
+                                <div></div>
+
+                                <!-- <ul id="header__options">
 
                                     <li class="header__option">
 
@@ -95,9 +150,9 @@
 
                                     </li>
 
-                                </ul>
+                                </ul> -->
                             
-                            </nav>
+                            </div>
 
                         </div>
 
